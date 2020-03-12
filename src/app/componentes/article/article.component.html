@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-md-2">
+
+  </div>
+  <div class="col-md-4" style="text-align: center;">
+    <div class="card mt-3 p-2">
+      <h5>Registro</h5>
+      <div class="card-body">
+        <form method="#" [formGroup]="formArticle">
+          <div class="form-group">
+            <input type="hidden" class="form-group" formControlName="id" name="id" id="form">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" formControlName="nombre" name="nombre" placeholder="Nombre">
+          </div>
+          <div class="form-group">
+            <input type="number" class="form-control" formControlName="precio" name="precio" placeholder="Precio">
+          </div>
+          <div class="form-group">
+            <button type="button" (click)="registrarArticle()" class="btn btn-success">{{btnSaveRegister}}</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div style="margin-top: 10px;">
+
+    </div>
+    <h4>Lista de Articulos</h4>
+    <div class="custom-scroll table-scroll">
+      <table class="table table-light table-borderless table-hover">
+        <thead>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Opciones</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let articulo of dataArticulos">
+            <td> {{articulo.data.nombre}} </td>
+            <td> {{articulo.data.precio|currency}} </td>
+            <td><button (click)="editarArticle(articulo)" [(disabled)]="btnDisable"
+                class="btn btn-warning btn-block">Editar</button> <button (click)="deleteArticle(articulo.id)"
+                class="btn btn-danger btn-block">{{btnCancelar}} </button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

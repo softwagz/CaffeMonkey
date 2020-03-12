@@ -1,0 +1,189 @@
+<div class="row">
+  <div class="col-md-6">
+    <h3>Lista de Clientes</h3>
+    <div class="table-scroll custom-scroll">
+
+      <table class="table table-light table-borderless table-hover table-responsive-lg">
+        <thead>
+          <th>Identificacion</th>
+          <th>Nombre</th>
+          <th>Saldo</th>
+          <th>Opciones</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cliente of dataClientes">
+            <td data-toggle="modal" data-target="#exampleModal" (click)="ver(cliente)">{{cliente.data.rut}}</td>
+            <td data-toggle="modal" data-target="#exampleModal" (click)="ver(cliente)">{{cliente.data.nombre}}</td>
+            <td data-toggle="modal" data-target="#exampleModal" (click)="ver(cliente)">{{cliente.data.saldo|currency}}
+            </td>
+            <td><button (click)="eliminar(cliente)" class="btn btn-secondary btn-block">Eliminar</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <form [formGroup]="formRegister" autocomplete="off">
+      <div class="row">
+        <div class="col-sm-12">
+          <h4>Cliente Nuevo</h4>
+          <div class="form-group">
+            <input class="form-control" formControlName="rut" type="text" name="code" id="code" placeholder="RUT">
+          </div>
+          <div class="form-group">
+            <input class="form-control" formControlName="nombre" type="text" name="nombre" id="name"
+              placeholder="Nombre">
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <select class="form-control" class="form-control" name="" id="articleSelec">
+                  <option value="0">Select</option>
+                  <option *ngFor="let item of dataArticle" [(value)]="item.id"> {{item.data.nombre}}
+                    Precio
+                    {{item.data.precio|currency}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="number" formControlName="cantidad" name="cantidad" id="cantidad" class="form-control"
+                  placeholder="Cantidad">
+              </div>
+            </div>
+          </div>
+          <div class="row pt-2">
+            <div class="col-md-4">
+              <div class="form-group">
+                <button (click)="carAdd()" class="btn btn-primary btn-block m-1">Agregar</button>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <button (click)="limpiar()" class="btn btn-success btn-block m-1">Limpiar</button>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <button (click)="registerNew()" class="btn btn-warning btn-block m-1"> Registrar</button>
+              </div>
+              <div class="form-group">
+                <span style="font-size: large;" class="badge badge-pill badge-light"> Total a Pagar : {{total|currency}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-scroll custom-scroll">
+
+          <table class="table table-light table-borderless table-hover table-responsive-lg">
+            <thead>
+              <th>Articulo</th>
+              <th>Cantidad</th>
+              <th>Total</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let article of articulos">
+                <td> {{article.nombre}} </td>
+                <td>{{article.cantidad}}</td>
+                <td>{{article.total|currency}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button trigger modal -->
+
+  <!-- Modal -->
+  <div style="width: 100%;" class="modal fade " id="exampleModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Cliente</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <label class="col-form-label col-sm-6">{{clienteSelected.data.nombre}}</label>
+            <label class="col-form-label col-sm-6">Saldo: {{clienteSelected.data.saldo|currency}} </label>
+          </div>
+          <form class="row" [formGroup]="formAbono" autocomplete="off"
+            style="border-bottom: 1px solid rgba(0, 0, 0, 0.178);margin-bottom: 10px;">
+            <div class="col-md-6">
+              <div class="form-group">
+                <input formControlName="abono" class="form-control" type="number" name="abonar" id="abonar"
+                  placeholder="Abonar">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <button (click)="abonar()" class="btn btn-success btn-block" type="button">Abonar</button>
+              </div>
+            </div>
+          </form>
+          <form [formGroup]="formAgregar" autocomplete="off" class="row">
+            <div class="col-md-12">
+              <h5>Registrar</h5>
+              <select class="form-control" name="" id="selectRegistrarCompra">
+                <option value="0">Select</option>
+                <option *ngFor="let articulo of dataArticle" [(value)]="articulo.id"> {{articulo.data.nombre}} Precio
+                  {{articulo.data.precio}} </option>
+              </select>
+              <div class="row pt-2">
+                <div class="col-md-6">
+                  <input formControlName="cantidadAdd" type="number" name="cantidad" id="cantidad" class="form-control"
+                    placeholder="cantidad">
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <button type="button" (click)="registerCompra()" class="btn btn-warning btn-block"> Agregar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </form>
+
+
+        </div>
+        <div class="modal-body">
+          <div class="custom-scroll table-scroll" style="height: 350px;">
+            <table class="table table-striped table-hover table-responsive">
+              <thead>
+                <th>Fecha</th>
+                <th>Articulo</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Total</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let articulo of clienteSelected.data.articulos">
+                  <td>{{articulo.fecha}}</td>
+                  <td>{{articulo.nombre}}</td>
+                  <td>{{articulo.cantidad}}</td>
+                  <td>{{articulo.precio|currency}}</td>
+                  <td>{{articulo.total|currency}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div style="text-align: center;" class="modal-footer">
+
+          <span class="badge badge-pill badge-warning">SOFTWAGZ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

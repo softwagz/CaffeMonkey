@@ -1,0 +1,7 @@
+.table-scroll{
+    position: relative;
+    height:600px;
+    overflow: auto;
+    display: block;
+
+}
